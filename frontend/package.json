@@ -5,6 +5,11 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@fullcalendar/daygrid": "^6.1.15",
+    "@fullcalendar/interaction": "^6.1.15",
+    "@fullcalendar/list": "^6.1.15",
+    "@fullcalendar/react": "^6.1.15",
+    "@fullcalendar/timegrid": "^6.1.15",
     "@mui/icons-material": "^6.4.7",
     "@mui/material": "^6.4.7",
     "@testing-library/dom": "^10.4.0",
@@ -20,6 +25,8 @@
     "react-router-dom": "^7.3.0",
     "react-scripts": "5.0.1",
     "react-to-pdf": "^1.0.1",
+    "react-to-print": "^3.0.5",
+    "recharts": "^2.15.1",
     "web-vitals": "^2.1.4",
     "yup": "^1.6.1"
   },
