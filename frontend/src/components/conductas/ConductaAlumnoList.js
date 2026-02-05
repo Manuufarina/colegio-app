@@ -183,9 +183,9 @@ const ConductaAlumnoList = () => {
                 <strong>Documento:</strong> {alumno.documento}
               </Typography>
               
-              {alumno.curso && (
+              {alumno.cursoNombre && (
                 <Typography variant="body1" gutterBottom>
-                  <strong>Curso:</strong> {alumno.curso.nombre} - División {alumno.curso.division}
+                  <strong>Curso:</strong> {alumno.cursoNombre}
                 </Typography>
               )}
             </CardContent>
@@ -280,7 +280,7 @@ const ConductaAlumnoList = () => {
             <List>
               {conductasAlumno && conductasAlumno.length > 0 ? (
                 conductasAlumno.map(conducta => (
-                  <React.Fragment key={conducta._id}>
+                  <React.Fragment key={conducta.id}>
                     <ListItem 
                       alignItems="flex-start" 
                       sx={{ 
@@ -335,14 +335,14 @@ const ConductaAlumnoList = () => {
                               <IconButton 
                                 size="small" 
                                 color="primary"
-                                onClick={() => handleViewConducta(conducta._id)}
+                                onClick={() => handleViewConducta(conducta.id)}
                               >
-                                <Edit fontSize="small" />
+                                <EditIcon fontSize="small" />
                               </IconButton>
                               <IconButton 
                                 size="small" 
                                 color="error"
-                                onClick={() => handleDelete(conducta._id)}
+                                onClick={() => handleDelete(conducta.id)}
                               >
                                 <DeleteIcon fontSize="small" />
                               </IconButton>
