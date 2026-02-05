@@ -54,6 +54,11 @@ import AsistenciaPage from './components/asistencias/AsistenciaPage';
 import ConductaList from './components/conductas/ConductaList';
 import ConductaForm from './components/conductas/ConductaForm';
 import ConductaAlumnoList from './components/conductas/ConductaAlumnoList';
+import ConductaDetail from './components/conductas/ConductaDetail';
+import SancionForm from './components/conductas/SancionForm';
+
+// Cursos - Alumnos por Curso
+import AlumnosCurso from './components/cursos/AlumnosCurso';
 
 // Boletines
 import BoletinesCurso from './components/boletines/BoletinesCurso';
@@ -64,12 +69,17 @@ import CalendarioPage from './components/eventos/Calendariopage';
 
 // Mensajes
 import MensajesList from './components/mensajes/MensajesList';
+import MensajeDetail from './components/mensajes/MensajeDetail';
+import MensajeForm from './components/mensajes/MensajeForm';
 
 // Notificaciones
 import NotificacionesList from './components/notificaciones/NotificacionesList';
 
 // Estadisticas
 import EstadisticasDashboard from './components/estadisticas/EstadisticasDashboard';
+import EstadisticasCurso from './components/estadisticas/EstadisticasCurso';
+import EstadisticasAlumno from './components/estadisticas/EstadisticasAlumno';
+import AlumnosRiesgoList from './components/estadisticas/AlumnosRiesgoList';
 
 import AuthContext from './context/auth/AuthContext';
 
@@ -115,21 +125,30 @@ const AppContent = () => {
           <Route path="/cursos" element={<PrivateRoute><CursoList /></PrivateRoute>} />
           <Route path="/cursos/nuevo" element={<PrivateRoute><CursoForm /></PrivateRoute>} />
           <Route path="/cursos/editar/:id" element={<PrivateRoute><CursoForm /></PrivateRoute>} />
+          <Route path="/cursos/:cursoId/alumnos" element={<PrivateRoute><AlumnosCurso /></PrivateRoute>} />
           <Route path="/materias" element={<PrivateRoute><MateriaList /></PrivateRoute>} />
           <Route path="/materias/nuevo" element={<PrivateRoute><MateriaForm /></PrivateRoute>} />
           <Route path="/materias/editar/:id" element={<PrivateRoute><MateriaForm /></PrivateRoute>} />
           <Route path="/calificaciones" element={<PrivateRoute><CalificacionList /></PrivateRoute>} />
           <Route path="/calificaciones/nuevo" element={<PrivateRoute><CalificacionForm /></PrivateRoute>} />
+          <Route path="/calificaciones/editar/:id" element={<PrivateRoute><CalificacionForm /></PrivateRoute>} />
           <Route path="/asistencias" element={<PrivateRoute><AsistenciaPage /></PrivateRoute>} />
           <Route path="/conductas" element={<PrivateRoute><ConductaList /></PrivateRoute>} />
           <Route path="/conductas/nuevo" element={<PrivateRoute><ConductaForm /></PrivateRoute>} />
+          <Route path="/conductas/sancion" element={<PrivateRoute><SancionForm /></PrivateRoute>} />
+          <Route path="/conductas/:id" element={<PrivateRoute><ConductaDetail /></PrivateRoute>} />
           <Route path="/conductas/alumno/:alumnoId" element={<PrivateRoute><ConductaAlumnoList /></PrivateRoute>} />
           <Route path="/boletines" element={<PrivateRoute><BoletinesCurso /></PrivateRoute>} />
           <Route path="/boletines/:alumnoId" element={<PrivateRoute><BoletinAlumno /></PrivateRoute>} />
           <Route path="/eventos" element={<PrivateRoute><CalendarioPage /></PrivateRoute>} />
           <Route path="/mensajes" element={<PrivateRoute><MensajesList /></PrivateRoute>} />
+          <Route path="/mensajes/nuevo" element={<PrivateRoute><MensajeForm /></PrivateRoute>} />
+          <Route path="/mensajes/:id" element={<PrivateRoute><MensajeDetail /></PrivateRoute>} />
           <Route path="/notificaciones" element={<PrivateRoute><NotificacionesList /></PrivateRoute>} />
           <Route path="/estadisticas" element={<PrivateRoute><EstadisticasDashboard /></PrivateRoute>} />
+          <Route path="/estadisticas/curso" element={<PrivateRoute><EstadisticasCurso /></PrivateRoute>} />
+          <Route path="/estadisticas/alumno" element={<PrivateRoute><EstadisticasAlumno /></PrivateRoute>} />
+          <Route path="/estadisticas/riesgo" element={<PrivateRoute><AlumnosRiesgoList /></PrivateRoute>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Box>

@@ -33,6 +33,7 @@ const EstadisticaState = ({ children }) => {
           totalAlumnos: alumnos.length,
           totalCursos: cursos.length,
           alumnosPorCurso: cursos.map(c => ({
+            nombre: `${c.anio}° ${c.division}`,
             curso: `${c.anio}° ${c.division}`,
             cantidad: alumnos.filter(a => a.cursoId === c.id).length
           }))
@@ -68,6 +69,7 @@ const EstadisticaState = ({ children }) => {
   return (
     <EstadisticaContext.Provider value={{
       estadisticas: state.estadisticas, error: state.error, loading: state.loading,
+      getEstadisticas: getEstadisticasGenerales,
       getEstadisticasGenerales, getEstadisticasCurso
     }}>
       {children}

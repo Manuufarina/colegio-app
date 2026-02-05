@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   Container, Typography, TextField, Button, Paper, Box, Grid,
   FormControl, InputLabel, Select, MenuItem
@@ -12,8 +12,9 @@ import AlumnoContext from '../../context/alumnos/AlumnoContext';
 import AlertContext from '../../context/alert/AlertContext';
 
 const CalificacionForm = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const { addCalificacion } = useContext(CalificacionContext);
+  const { calificaciones, addCalificacion, updateCalificacion } = useContext(CalificacionContext);
   const { cursos, getCursos } = useContext(CursoContext);
   const { materias, getMateriasByCurso } = useContext(MateriaContext);
   const { alumnos, getAlumnosByCurso } = useContext(AlumnoContext);
@@ -24,7 +25,27 @@ const CalificacionForm = () => {
     nota: '', periodo: '1er Trimestre', tipo: 'Examen', fecha: new Date().toISOString().split('T')[0], observaciones: ''
   });
 
+  const isEditing = Boolean(id);
+
   useEffect(() => { getCursos(); /* eslint-disable-next-line */ }, []);
+
+  useEffect(() => {
+    if (id && calificaciones.length > 0) {
+      const cal = calificaciones.find(c => c.id === id);
+      if (cal) {
+        setFormData({
+          cursoId: cal.cursoId || '', alumnoId: cal.alumnoId || '',
+          alumnoNombre: cal.alumnoNombre || '', materiaId: cal.materiaId || '',
+          materiaNombre: cal.materiaNombre || '', nota: cal.nota || '',
+          periodo: cal.periodo || '1er Trimestre', tipo: cal.tipo || 'Examen',
+          fecha: cal.fecha || new Date().toISOString().split('T')[0],
+          observaciones: cal.observaciones || ''
+        });
+      }
+    }
+    // eslint-disable-next-line
+  }, [id, calificaciones]);
+
   useEffect(() => {
     if (formData.cursoId) {
       getMateriasByCurso(formData.cursoId);
@@ -52,8 +73,13 @@ const CalificacionForm = () => {
     if (!formData.alumnoId || !formData.materiaId || !formData.nota) {
       setAlert('Alumno, materia y nota son obligatorios', 'error'); return;
     }
-    await addCalificacion({ ...formData, nota: parseFloat(formData.nota) });
-    setAlert('Calificacion registrada', 'success');
+    if (isEditing) {
+      await updateCalificacion(id, { ...formData, nota: parseFloat(formData.nota) });
+      setAlert('Calificacion actualizada', 'success');
+    } else {
+      await addCalificacion({ ...formData, nota: parseFloat(formData.nota) });
+      setAlert('Calificacion registrada', 'success');
+    }
     navigate('/calificaciones');
   };
 
@@ -61,7 +87,7 @@ const CalificacionForm = () => {
     <Container maxWidth="md">
       <Box sx={{ mb: 3 }}><Button startIcon={<ArrowBack />} onClick={() => navigate('/calificaciones')}>Volver</Button></Box>
       <Paper elevation={3} sx={{ p: 4 }}>
-        <Typography variant="h5" sx={{ mb: 3 }}>Nueva Calificacion</Typography>
+        <Typography variant="h5" sx={{ mb: 3 }}>{isEditing ? 'Editar Calificacion' : 'Nueva Calificacion'}</Typography>
         <Box component="form" onSubmit={onSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>

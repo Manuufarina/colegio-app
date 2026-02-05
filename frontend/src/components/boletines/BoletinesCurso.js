@@ -4,111 +4,80 @@ import CursoContext from '../../context/cursos/CursoContext';
 import AlumnoContext from '../../context/alumnos/AlumnoContext';
 import Loading from '../layout/Loading';
 import {
-  Container,
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Button,
-  Box,
-  MenuItem,
-  TextField,
-  IconButton,
-  Tooltip
+  Container, Typography, Table, TableBody, TableCell,
+  TableContainer, TableHead, TableRow, Paper, Box, MenuItem,
+  TextField, IconButton, Tooltip
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const BoletinesCurso = () => {
   const navigate = useNavigate();
-  const cursoContext = useContext(CursoContext);
-  const alumnoContext = useContext(AlumnoContext);
-
-  const { cursos, getCursos, loading: loadingCursos } = cursoContext;
-  const { alumnos, getAlumnos, loading: loadingAlumnos } = alumnoContext;
-
+  const { cursos, getCursos, loading: loadingCursos } = useContext(CursoContext);
+  const { alumnos, getAlumnosByCurso, loading: loadingAlumnos } = useContext(AlumnoContext);
   const [cursoSeleccionado, setCursoSeleccionado] = useState('');
 
   useEffect(() => {
     getCursos();
-    getAlumnos();
     // eslint-disable-next-line
   }, []);
 
-  const alumnosFiltrados = cursoSeleccionado
-    ? alumnos.filter((alumno) => alumno.curso === cursoSeleccionado || alumno.cursoId === cursoSeleccionado)
-    : [];
+  useEffect(() => {
+    if (cursoSeleccionado) getAlumnosByCurso(cursoSeleccionado);
+    // eslint-disable-next-line
+  }, [cursoSeleccionado]);
 
-  if (loadingCursos || loadingAlumnos) return <Loading />;
+  if (loadingCursos) return <Loading />;
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      <Typography variant="h4" component="h1" mb={3}>
-        Boletines por Curso
-      </Typography>
-
+    <Container maxWidth="lg">
+      <Typography variant="h4" sx={{ mb: 3 }}>Boletines por Curso</Typography>
       <Box mb={3}>
         <TextField
-          select
-          label="Seleccionar Curso"
-          value={cursoSeleccionado}
+          select label="Seleccionar Curso" value={cursoSeleccionado}
           onChange={(e) => setCursoSeleccionado(e.target.value)}
           sx={{ minWidth: 300 }}
         >
-          <MenuItem value="">
-            <em>Seleccionar un curso</em>
-          </MenuItem>
-          {cursos && cursos.map((curso) => (
+          <MenuItem value=""><em>Seleccionar un curso</em></MenuItem>
+          {cursos.map((curso) => (
             <MenuItem key={curso.id} value={curso.id}>
-              {curso.nombre}
+              {curso.anio}° {curso.division} - {curso.turno || 'Manana'}
             </MenuItem>
           ))}
         </TextField>
       </Box>
-
       {cursoSeleccionado && (
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell><strong>Nombre</strong></TableCell>
-                <TableCell><strong>Apellido</strong></TableCell>
-                <TableCell align="center"><strong>Ver Boletin</strong></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {alumnosFiltrados.length > 0 ? (
-                alumnosFiltrados.map((alumno) => (
+        loadingAlumnos ? <Loading /> : (
+          <TableContainer component={Paper} elevation={3}>
+            <Table>
+              <TableHead>
+                <TableRow sx={{ bgcolor: 'primary.main' }}>
+                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Apellido</TableCell>
+                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Nombre</TableCell>
+                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Documento</TableCell>
+                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }} align="center">Boletin</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {alumnos.length === 0 ? (
+                  <TableRow><TableCell colSpan={4} align="center">No hay alumnos en este curso</TableCell></TableRow>
+                ) : alumnos.map((alumno) => (
                   <TableRow key={alumno.id} hover>
-                    <TableCell>{alumno.nombre}</TableCell>
                     <TableCell>{alumno.apellido}</TableCell>
+                    <TableCell>{alumno.nombre}</TableCell>
+                    <TableCell>{alumno.documento || '-'}</TableCell>
                     <TableCell align="center">
                       <Tooltip title="Ver boletin">
-                        <IconButton
-                          color="primary"
-                          onClick={() => navigate(`/boletines/${alumno.id}`)}
-                        >
+                        <IconButton color="primary" onClick={() => navigate(`/boletines/${alumno.id}`)}>
                           <VisibilityIcon />
                         </IconButton>
                       </Tooltip>
                     </TableCell>
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={3} align="center">
-                    <Typography variant="body1" sx={{ py: 2 }}>
-                      No hay alumnos en este curso
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )
       )}
     </Container>
   );

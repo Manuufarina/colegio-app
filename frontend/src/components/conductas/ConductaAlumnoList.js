@@ -113,10 +113,6 @@ const ConductaAlumnoList = () => {
     navigate('/conductas/nuevo', { state: { alumnoId } });
   };
   
-  const handleEdit = (id) => {
-    navigate(`/conductas/editar/${id}`);
-  };
-  
   const handleDelete = (id) => {
     setConfirmDelete({ open: true, id });
   };

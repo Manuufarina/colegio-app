@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   AppBar, Toolbar, Typography, IconButton, Badge, Menu, MenuItem, Box, Avatar
 } from '@mui/material';
@@ -12,6 +13,7 @@ import AuthContext from '../../context/auth/AuthContext';
 import NotificacionContext from '../../context/notificaciones/NotificacionContext';
 
 const Header = ({ onToggleSidebar }) => {
+  const navigate = useNavigate();
   const { user, logout } = useContext(AuthContext);
   const { notificaciones } = useContext(NotificacionContext);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -34,7 +36,7 @@ const Header = ({ onToggleSidebar }) => {
         <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
           Sistema de Gestion Escolar
         </Typography>
-        <IconButton color="inherit">
+        <IconButton color="inherit" onClick={() => navigate('/notificaciones')}>
           <Badge badgeContent={unread} color="error">
             <NotificationsIcon />
           </Badge>
