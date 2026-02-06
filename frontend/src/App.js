@@ -71,6 +71,9 @@ import NotificacionesList from './components/notificaciones/NotificacionesList';
 // Estadisticas
 import EstadisticasDashboard from './components/estadisticas/EstadisticasDashboard';
 
+// Gestión integral
+import GestionIntegralPage from './components/gestion/GestionIntegralPage';
+
 import AuthContext from './context/auth/AuthContext';
 
 const theme = createTheme({
@@ -130,6 +133,7 @@ const AppContent = () => {
           <Route path="/mensajes" element={<PrivateRoute><MensajesList /></PrivateRoute>} />
           <Route path="/notificaciones" element={<PrivateRoute><NotificacionesList /></PrivateRoute>} />
           <Route path="/estadisticas" element={<PrivateRoute><EstadisticasDashboard /></PrivateRoute>} />
+          <Route path="/gestion-integral" element={<PrivateRoute><GestionIntegralPage /></PrivateRoute>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Box>
