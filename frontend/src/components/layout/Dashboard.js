@@ -7,7 +7,8 @@ import {
   People as PeopleIcon,
   School as SchoolIcon,
   MenuBook as MenuBookIcon,
-  CalendarMonth as CalendarIcon
+  CalendarMonth as CalendarIcon,
+  BusinessCenter as BusinessCenterIcon
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../context/auth/AuthContext';
@@ -31,6 +32,7 @@ const Dashboard = () => {
     { title: 'Cursos', value: estadisticas?.totalCursos || 0, icon: <SchoolIcon sx={{ fontSize: 48 }} />, color: '#388e3c', path: '/cursos' },
     { title: 'Materias', value: '-', icon: <MenuBookIcon sx={{ fontSize: 48 }} />, color: '#f57c00', path: '/materias' },
     { title: 'Eventos', value: '-', icon: <CalendarIcon sx={{ fontSize: 48 }} />, color: '#7b1fa2', path: '/eventos' },
+    { title: 'Gestión integral', value: '5', icon: <BusinessCenterIcon sx={{ fontSize: 48 }} />, color: '#00897b', path: '/gestion-integral' },
   ];
 
   return (

@@ -14,7 +14,8 @@ const MateriaList = () => {
   const { materias, loading, getMaterias, deleteMateria } = useContext(MateriaContext);
   const { setAlert } = useContext(AlertContext);
 
-  useEffect(() => { getMaterias(); /* eslint-disable-next-line */ }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { getMaterias(); }, []);
 
   const handleDelete = async (id) => {
     if (window.confirm('Eliminar esta materia?')) {

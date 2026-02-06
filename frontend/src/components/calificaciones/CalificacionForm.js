@@ -24,14 +24,14 @@ const CalificacionForm = () => {
     nota: '', periodo: '1er Trimestre', tipo: 'Examen', fecha: new Date().toISOString().split('T')[0], observaciones: ''
   });
 
-  useEffect(() => { getCursos(); /* eslint-disable-next-line */ }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { getCursos(); }, []);
   useEffect(() => {
     if (formData.cursoId) {
       getMateriasByCurso(formData.cursoId);
       getAlumnosByCurso(formData.cursoId);
     }
-    // eslint-disable-next-line
-  }, [formData.cursoId]);
+  }, [formData.cursoId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onChange = (e) => {
     const { name, value } = e.target;
