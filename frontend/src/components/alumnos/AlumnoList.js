@@ -15,8 +15,9 @@ const AlumnoList = () => {
   const { setAlert } = useContext(AlertContext);
   const [search, setSearch] = useState('');
 
-  useEffect(() => { getAlumnos(); /* eslint-disable-next-line */ }, []);
-  useEffect(() => { search ? filterAlumnos(search) : clearFilter(); /* eslint-disable-next-line */ }, [search]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { getAlumnos(); }, []);
+  useEffect(() => { search ? filterAlumnos(search) : clearFilter(); }, [search]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleDelete = async (id) => {
     if (window.confirm('Eliminar este alumno?')) {

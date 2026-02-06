@@ -12,8 +12,29 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
+const hasValidFirebaseConfig = Object.values(firebaseConfig).every((value) => {
+  if (!value) return false;
+  const normalized = String(value).trim().toLowerCase();
+  return !normalized.startsWith('your_');
+});
+
+let app = null;
+let auth = null;
+let db = null;
+let storage = null;
+
+if (hasValidFirebaseConfig) {
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
+  storage = getStorage(app);
+} else {
+  // eslint-disable-next-line no-console
+  console.warn(
+    'Firebase no está configurado correctamente. Copiá frontend/.env.example a .env y completá tus credenciales REACT_APP_FIREBASE_*.'
+  );
+}
+
+export { auth, db, storage };
+export const firebaseReady = hasValidFirebaseConfig;
 export default app;

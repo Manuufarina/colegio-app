@@ -18,7 +18,8 @@ const CursoForm = () => {
     anio: '', division: '', turno: 'Manana', nivel: 'Secundario', capacidad: ''
   });
 
-  useEffect(() => { if (id) getCurso(id); /* eslint-disable-next-line */ }, [id]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { if (id) getCurso(id); }, [id]);
   useEffect(() => {
     if (curso && id) {
       setFormData({

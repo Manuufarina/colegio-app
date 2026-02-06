@@ -21,14 +21,14 @@ const AsistenciaPage = () => {
   const [fecha, setFecha] = useState(new Date().toISOString().split('T')[0]);
   const [registros, setRegistros] = useState({});
 
-  useEffect(() => { getCursos(); /* eslint-disable-next-line */ }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { getCursos(); }, []);
   useEffect(() => {
     if (cursoId) {
       getAlumnosByCurso(cursoId);
       getAsistenciasByCurso(cursoId, fecha);
     }
-    // eslint-disable-next-line
-  }, [cursoId, fecha]);
+  }, [cursoId, fecha]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const map = {};

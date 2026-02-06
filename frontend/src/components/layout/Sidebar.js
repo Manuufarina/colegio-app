@@ -16,7 +16,8 @@ import {
   CalendarMonth as CalendarIcon,
   Message as MessageIcon,
   BarChart as BarChartIcon,
-  Description as DescriptionIcon
+  Description as DescriptionIcon,
+  BusinessCenter as BusinessCenterIcon
 } from '@mui/icons-material';
 
 const drawerWidth = 240;
@@ -33,6 +34,7 @@ const menuItems = [
   { text: 'Eventos', icon: <CalendarIcon />, path: '/eventos' },
   { text: 'Mensajes', icon: <MessageIcon />, path: '/mensajes' },
   { text: 'Estadisticas', icon: <BarChartIcon />, path: '/estadisticas' },
+  { text: 'Gestión integral', icon: <BusinessCenterIcon />, path: '/gestion-integral' },
 ];
 
 const Sidebar = ({ open, onClose }) => {
