@@ -27,14 +27,23 @@ const isValidConfig = (config) => Object.values(config).every((value) => {
   return !normalized.startsWith('your_');
 });
 
-const hasValidEnvConfig = isValidConfig(firebaseEnvConfig);
-const firebaseConfig = hasValidEnvConfig ? firebaseEnvConfig : firebaseFallbackConfig;
+let app = null;
+let auth = null;
+let db = null;
+let storage = null;
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
+if (hasValidFirebaseConfig) {
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
+  storage = getStorage(app);
+} else {
+  // eslint-disable-next-line no-console
+  console.warn(
+    'Firebase no está configurado correctamente. Copiá frontend/.env.example a .env y completá tus credenciales REACT_APP_FIREBASE_*.'
+  );
+}
 
 export { auth, db, storage };
-export const firebaseReady = true;
+export const firebaseReady = hasValidFirebaseConfig;
 export default app;
