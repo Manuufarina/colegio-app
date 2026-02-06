@@ -3,7 +3,16 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
-const firebaseConfig = {
+const firebaseFallbackConfig = {
+  apiKey: 'AIzaSyAro6zFRnMaOOySZF2H7a7grrmrKn59KJU',
+  authDomain: 'colegio-app-d23ba.firebaseapp.com',
+  projectId: 'colegio-app-d23ba',
+  storageBucket: 'colegio-app-d23ba.firebasestorage.app',
+  messagingSenderId: '1014395980623',
+  appId: '1:1014395980623:web:ed8061578a20dc4be1d33a'
+};
+
+const firebaseEnvConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
@@ -12,7 +21,7 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
-const hasValidFirebaseConfig = Object.values(firebaseConfig).every((value) => {
+const isValidConfig = (config) => Object.values(config).every((value) => {
   if (!value) return false;
   const normalized = String(value).trim().toLowerCase();
   return !normalized.startsWith('your_');
