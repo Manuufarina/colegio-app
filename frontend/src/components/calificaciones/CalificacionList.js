@@ -19,8 +19,10 @@ const CalificacionList = () => {
   const [cursoId, setCursoId] = useState('');
   const [periodo, setPeriodo] = useState('');
 
-  useEffect(() => { getCursos(); /* eslint-disable-next-line */ }, []);
-  useEffect(() => { if (cursoId) getCalificacionesByCurso(cursoId, periodo); /* eslint-disable-next-line */ }, [cursoId, periodo]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { getCursos(); }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { if (cursoId) getCalificacionesByCurso(cursoId, periodo); }, [cursoId, periodo]);
 
   const handleDelete = async (id) => {
     if (window.confirm('Eliminar esta calificacion?')) {

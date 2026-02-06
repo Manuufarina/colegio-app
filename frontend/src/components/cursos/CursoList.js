@@ -14,7 +14,8 @@ const CursoList = () => {
   const { cursos, loading, getCursos, deleteCurso } = useContext(CursoContext);
   const { setAlert } = useContext(AlertContext);
 
-  useEffect(() => { getCursos(); /* eslint-disable-next-line */ }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { getCursos(); }, []);
 
   const handleDelete = async (id) => {
     if (window.confirm('Eliminar este curso?')) {

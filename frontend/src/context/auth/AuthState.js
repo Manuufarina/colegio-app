@@ -11,7 +11,7 @@ import {
   CLEAR_ERRORS,
   SET_LOADING
 } from '../types';
-import { auth, db } from '../../firebase';
+import { auth, db, firebaseReady } from '../../firebase';
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -52,6 +52,11 @@ const AuthState = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   useEffect(() => {
+    if (!firebaseReady || !auth || !db) {
+      dispatch({ type: AUTH_ERROR, payload: 'Firebase no configurado. Revisá variables REACT_APP_FIREBASE_* en frontend/.env.' });
+      return () => {};
+    }
+
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         try {
@@ -72,6 +77,12 @@ const AuthState = ({ children }) => {
 
   const login = async (email, password) => {
     dispatch({ type: SET_LOADING });
+
+    if (!firebaseReady || !auth || !db) {
+      dispatch({ type: LOGIN_FAIL, payload: 'Firebase no configurado. Completá frontend/.env con REACT_APP_FIREBASE_*.' });
+      return;
+    }
+
     try {
       const cred = await signInWithEmailAndPassword(auth, email, password);
       const userDoc = await getDoc(doc(db, 'usuarios', cred.user.uid));
@@ -86,6 +97,12 @@ const AuthState = ({ children }) => {
 
   const register = async (formData) => {
     dispatch({ type: SET_LOADING });
+
+    if (!firebaseReady || !auth || !db) {
+      dispatch({ type: REGISTER_FAIL, payload: 'Firebase no configurado. Completá frontend/.env con REACT_APP_FIREBASE_*.' });
+      return;
+    }
+
     try {
       const { email, password, nombre, apellido, rol } = formData;
       const cred = await createUserWithEmailAndPassword(auth, email, password);
@@ -107,6 +124,11 @@ const AuthState = ({ children }) => {
   };
 
   const logout = async () => {
+    if (!firebaseReady || !auth) {
+      dispatch({ type: LOGOUT });
+      return;
+    }
+
     await signOut(auth);
     dispatch({ type: LOGOUT });
   };

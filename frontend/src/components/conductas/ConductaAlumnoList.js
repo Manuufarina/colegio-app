@@ -75,9 +75,9 @@ const ConductaAlumnoList = () => {
         setLoading(false);
       }
     };
-    
+
     loadData();
-  }, [alumnoId]);
+  }, [alumnoId]); // eslint-disable-line react-hooks/exhaustive-deps
   
   const handleOpenFilter = () => {
     setOpenFilter(true);
@@ -111,10 +111,6 @@ const ConductaAlumnoList = () => {
   
   const handleNuevaConducta = () => {
     navigate('/conductas/nuevo', { state: { alumnoId } });
-  };
-  
-  const handleEdit = (id) => {
-    navigate(`/conductas/editar/${id}`);
   };
   
   const handleDelete = (id) => {
