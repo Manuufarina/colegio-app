@@ -27,6 +27,9 @@ const isValidConfig = (config) => Object.values(config).every((value) => {
   return !normalized.startsWith('your_');
 });
 
+const firebaseConfig = isValidConfig(firebaseEnvConfig) ? firebaseEnvConfig : firebaseFallbackConfig;
+const hasValidFirebaseConfig = isValidConfig(firebaseConfig);
+
 let app = null;
 let auth = null;
 let db = null;
