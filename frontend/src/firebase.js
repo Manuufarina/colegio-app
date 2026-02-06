@@ -3,7 +3,16 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
-const firebaseConfig = {
+const firebaseFallbackConfig = {
+  apiKey: 'AIzaSyAro6zFRnMaOOySZF2H7a7grrmrKn59KJU',
+  authDomain: 'colegio-app-d23ba.firebaseapp.com',
+  projectId: 'colegio-app-d23ba',
+  storageBucket: 'colegio-app-d23ba.firebasestorage.app',
+  messagingSenderId: '1014395980623',
+  appId: '1:1014395980623:web:ed8061578a20dc4be1d33a'
+};
+
+const firebaseEnvConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
@@ -12,29 +21,20 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
-const hasValidFirebaseConfig = Object.values(firebaseConfig).every((value) => {
+const isValidConfig = (config) => Object.values(config).every((value) => {
   if (!value) return false;
   const normalized = String(value).trim().toLowerCase();
   return !normalized.startsWith('your_');
 });
 
-let app = null;
-let auth = null;
-let db = null;
-let storage = null;
+const hasValidEnvConfig = isValidConfig(firebaseEnvConfig);
+const firebaseConfig = hasValidEnvConfig ? firebaseEnvConfig : firebaseFallbackConfig;
 
-if (hasValidFirebaseConfig) {
-  app = initializeApp(firebaseConfig);
-  auth = getAuth(app);
-  db = getFirestore(app);
-  storage = getStorage(app);
-} else {
-  // eslint-disable-next-line no-console
-  console.warn(
-    'Firebase no está configurado correctamente. Copiá frontend/.env.example a .env y completá tus credenciales REACT_APP_FIREBASE_*.'
-  );
-}
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
 
 export { auth, db, storage };
-export const firebaseReady = hasValidFirebaseConfig;
+export const firebaseReady = true;
 export default app;
